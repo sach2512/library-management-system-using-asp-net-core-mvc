@@ -1,0 +1,53 @@
+﻿ @model Librarymanagement.Models.Book
+
+ @{
+     ViewData["Title"] = "Edit Book";
+ }
+
+ <div class="row justify-content-center">
+     <div class="col-md-8">
+         <div class="card shadow-sm">
+             <div class="card-header bg-primary text-white">
+                 <h4 class="mb-0">
+                     <i class="bi bi-book-fill"></i> Edit Book
+                 </h4>
+             </div>
+
+             @using (Html.BeginForm("Edit", "Book", FormMethod.Post))
+             {
+                 @Html.HiddenFor(m => m.BookId)
+                 // Make sure to include the Id in a hidden field
+
+                 <div class="card-body">
+                     <div class="mb-3">
+                         @Html.LabelFor(m => m.Title, htmlAttributes: new { @class = "form-label" })
+                         @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "Enter book title" })
+                     </div>
+
+                     <div class="mb-3">
+                         @Html.LabelFor(m => m.Author, htmlAttributes: new { @class = "form-label" })
+                         @Html.TextBoxFor(m => m.Author, new { @class = "form-control", placeholder = "Enter author name" })
+                     </div>
+
+                     <div class="mb-3">
+                         @Html.LabelFor(m => m.ISBN, htmlAttributes: new { @class = "form-label" })
+                         @Html.TextBoxFor(m => m.ISBN, new { @class = "form-control", placeholder = "Enter ISBN" })
+                     </div>
+
+                     <div class="mb-3">
+                         @Html.LabelFor(m => m.PublishedDate, htmlAttributes: new { @class = "form-label" })
+                         @Html.TextBoxFor(m => m.PublishedDate, new { @class = "form-control", type = "date" })
+                     </div>
+                 </div>
+
+                 <div class="card-footer">
+                     <button type="submit" class="btn btn-primary me-2">
+                         <i class="bi bi-save"></i> Save Changes
+                     </button>
+                     @Html.ActionLink("Cancel", "Index", "Book", null, new { @class = "btn btn-secondary" })
+                 </div>
+             }
+         </div>
+     </div>
+ </div>
+ <h1> edit page</h1>

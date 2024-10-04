@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Librarymanagement.Models.Book>
+
+@{
+    ViewData["Title"] = "Books List";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Published Date</th>
+            <th>Availability</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Author</td>
+                <td>@item.ISBN</td>
+                <td>@item.PublishedDate.ToString("yyyy-MM-dd")</td> <!-- Optional: Format date -->
+
+                <td>
+                    @if (item.IsAvailable)
+                    {
+                        <span class="badge bg-success">Available</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Borrowed</span>
+                    }
+                </td>
+
+                <td>
+                    @Html.ActionLink("Details", "Details", "Book", new { BookId = item.BookId }, null)
+
+                    @Html.ActionLink("Edit", "Edit", "Book", new { BookId = item.BookId }, null)
+                    @Html.ActionLink("Delete", "Delete", "Book", new { BookId = item.BookId }, null)
+
+                    @if (item.IsAvailable)
+                    {
+                        <a asp-controller="Borrow" asp-action="Create" asp-route-bookId="@item.BookId" class="btn btn-primary btn-sm">Borrow</a>
+                    }
+                    else
+                    {
+                        var activeBorrowRecord = item.BorrowRecords.FirstOrDefault(br => br.ReturnDate == null);
+                        if (activeBorrowRecord != null)
+                        {
+                            <a asp-controller="Borrow" asp-action="Return" asp-route-borrowRecordId="@activeBorrowRecord.BorrowRecordId" class="btn btn-success btn-sm">Return</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">This book is currently borrowed.</span>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@Html.ActionLink("Create New Book", "Create", "Book")
