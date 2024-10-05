@@ -1,0 +1,35 @@
+﻿@model Librarymanagement.Models.BorrowRecord
+
+
+
+<h2>Confirm Return</h2>
+
+<div class="confirm-return">
+    <h4>Are you sure you want to return the following book?</h4>
+
+    <dl class="dl-horizontal">
+        <dt>Book Title:</dt>
+        <dd>@Model.Book.Title</dd> <!-- Assuming Book has a Title property -->
+
+        <dt>Author:</dt>
+        <dd>@Model.Book.Author</dd> <!-- Assuming Book has an Author property -->
+
+        <dt>Borrower Name:</dt>
+        <dd>@Model.BorrowerName</dd>
+
+        <dt>Borrower Email:</dt>
+        <dd>@Model.BorrowerEmail</dd>
+
+        <dt>Phone Number:</dt>
+        <dd>@Model.Phone</dd>
+
+        <dt>Borrow Date:</dt>
+        <dd>@Model.BorrowDate.ToString("g")</dd>
+    </dl>
+
+    <form asp-action="Return" method="post">
+        <input type="hidden" asp-for="BorrowRecordId" />
+        <button type="submit" class="btn btn-success">Confirm Return</button>
+    </form>
+</div>
+
